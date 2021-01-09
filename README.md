@@ -1,8 +1,8 @@
-# CoderSchool FTW - * GitHub Project Team Name *
+# CoderSchool FTW - * Github Issues Team3 *
 
-Created with love by: `teammates.map(teammate => teammate.name)`
+Created with love by: Chau, Jun, Phuong and Prince
   
-View online at: `Your URL here`
+<!-- View online at: `Your URL here` -->
   
 One or two sentence summary of your project, anything fun that you liked. 
 
@@ -44,15 +44,15 @@ The following **additional** features are implemented:
 
 * [x] List anything else cool you did
 
-## Time Spent and Lessons Learned
+<!-- ## Time Spent and Lessons Learned
 
 Time spent: **X** hours spent in total.
 
-Describe any challenges encountered while building the app.
+Describe any challenges encountered while building the app. -->
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2021] [Chau, Jun, Phuong, Prince]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
