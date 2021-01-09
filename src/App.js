@@ -10,7 +10,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("")
   const [issues, setIssues] = useState([])
   const [url, setUrl] = useState(`https://api.github.com/repos/octocat/hello-world/issues`)
-  const [selectedIssue, setSelectedIssue] = usetState({})
+  const [selectedIssue, setSelectedIssue] = useState({})
 
   useEffect(() => {
     async function fetchData() {
@@ -43,7 +43,7 @@ function App() {
         handleClick={handleClick}
         value={searchTerm}
       />
-      <IssueList issues={issues} handleIssueClick={handleIssueClick} />
+      <IssueList issues={issues}/>
     </Container>
   );
 }
