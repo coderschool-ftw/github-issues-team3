@@ -8,8 +8,10 @@ import SearchForm from "./components/SearchForm";
 import IssueModal from "./components/IssueModal"
 import IssueListError from "./components/IssueListError"
 import BounceLoader from "react-spinners/BounceLoader";
+import PaginationBar from './components/PaginationBar';
 
 function App() {
+  const issuesPerPage = 30; // GitHub default size
   const [searchTerm, setSearchTerm] = useState("");
   const [issues, setIssues] = useState([]);
   const [url, setUrl] = useState(
@@ -19,6 +21,9 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [hasError, setHasError] = useState(false)
   const [loading, isLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalIssuesCount, setTotalIssuesCount] = useState(1);
+  const [finalQuery,setFinalQuery] = useState('');
 
 
 
@@ -40,10 +45,26 @@ function App() {
     }
     fetchData();
   }, [url]);
+  useEffect(()=>{
+    async function fetchTotalIssuesCount(){
+      if(finalQuery !== ""){
+        let data = await fetch(`https://api.github.com/repos/${finalQuery}`);
+        let json = await data.json();
+        let totalIssues = json.open_issues_count
+        console.log("Total issues", totalIssues);
+        if(totalIssues !== undefined){
+          setTotalIssuesCount(totalIssues);
+        }
+      }
+    }
+    fetchTotalIssuesCount();
+  },[finalQuery])
 
   const handleClick = () => {
     setUrl(`https://api.github.com/repos/${searchTerm}/issues`);
     console.log(issues)
+    setCurrentPage(1);
+    setFinalQuery(searchTerm);
   };
 
   const handleChange = (e) => {
@@ -53,6 +74,10 @@ function App() {
   const handleIssueClick = (issue) => {
     setSelectedIssue(issue)
     setShowModal(true)
+  }
+  const handleChangePage = (page)=>{
+    setCurrentPage(page);
+    setUrl(`https://api.github.com/repos/${searchTerm}/issues?page=${page}`)
   }
 
   return (
@@ -64,6 +89,11 @@ function App() {
         handleClick={handleClick}
         value={searchTerm}
       />
+      <PaginationBar 
+        totalIssuesCount={totalIssuesCount} 
+        issuesPerPage={issuesPerPage} 
+        currentPage = {currentPage} 
+        clicked = {handleChangePage}/>
       {!loading && (<>
       {!hasError && (<IssueList issues={issues} handleIssueClick={handleIssueClick}/>)}
       {hasError && <IssueListError hasError={hasError}></IssueListError>}
