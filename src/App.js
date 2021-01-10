@@ -26,8 +26,11 @@ function App() {
   const [totalIssuesCount, setTotalIssuesCount] = useState(1);
   const [finalQuery,setFinalQuery] = useState('');
 
-
-
+  const [urlComment, setUrlComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [pageComment, setPageComment] = useState(0);
+  const [totalCommentPerIssue, setTotalCommentPerIssue] = useState(0);
+  const [disableLoadMore,setDisableLoadMore] = useState(false);
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -69,6 +72,24 @@ function App() {
     fetchTotalIssuesCount();
   },[finalQuery])
 
+  useEffect(()=>{
+    async function fetchComments(){
+      if(urlComment !== ""){
+        let data = await fetch(`${urlComment}?per_page=5&page=${pageComment}`);
+        let json = await data.json();
+        let newArray = [...comments, ...json]
+        setComments(newArray);
+      }
+    }
+    fetchComments();
+  },[urlComment, pageComment])
+
+  useEffect(() => {
+    if (comments.length >= totalCommentPerIssue) {
+      setDisableLoadMore(true);
+    }
+  }, [comments.length])
+
   const handleClick = () => {
     setCurrentPage(1);
     if(searchTerm === "" || !searchTerm.includes('/')){
@@ -96,11 +117,19 @@ function App() {
   const handleIssueClick = (issue) => {
     setSelectedIssue(issue)
     setShowModal(true)
+    setUrlComment(issue.comments_url);
+    setTotalCommentPerIssue(issue.comments)
+    setPageComment(1);
+    setComments([]);
+    setDisableLoadMore(false);
   }
   const handleChangePage = (page)=>{
     setCurrentPage(page);
     setUrl(`https://api.github.com/repos/${searchTerm}/issues?page=${page}`)
     isLoading(true);
+  }
+  const handleLoadComments = ()=> {
+    setPageComment(pageComment + 1);
   }
 
   return (
@@ -120,7 +149,8 @@ function App() {
       {!loading && (<>
       {!hasError && (<IssueList issues={issues} handleIssueClick={handleIssueClick}/>)}
       {hasError && <IssueListError hasError={hasError}></IssueListError>}
-      <IssueModal showModal={showModal} handleCloseModal={handleCloseModal} issue={selectedIssue}/></>)}
+      <IssueModal showModal={showModal} handleCloseModal={handleCloseModal} issue={selectedIssue} comments={comments} handleLoadComments={handleLoadComments}
+      disableLoadMore={disableLoadMore}/></>)}
       {loading && (<BounceLoader></BounceLoader>)}
       
     </Container>
