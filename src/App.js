@@ -14,10 +14,10 @@ function App() {
   const issuesPerPage = 30; // GitHub default size
   const [searchTerm, setSearchTerm] = useState("");
   const [issues, setIssues] = useState([]);
-  // const [url, setUrl] = useState(
-  //   `https://api.github.com/repos/octocat/hello-world/issues`
-  // );
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(
+    `https://api.github.com/repos/facebook/react/issues`
+  );
+  // const [url, setUrl] = useState('');
   const [selectedIssue, setSelectedIssue] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [hasError, setHasError] = useState(false)
@@ -132,7 +132,7 @@ export default App;
 
 // - [X] The user can enter a repository in a search bar, click "search", and see the associated issues. The repository should be of the format `owner/repo-name`, e.g. `facebook/react`.
 // - [X] If the repository does not exist, the user should see a proper error message.
-// - [] The user should be able to see the following information for each issue:
+// - [X] The user should be able to see the following information for each issue:
 //   - Issue Title with Number of the issue
 //   - Owner of the Issue
 //   - Owner Avatar
@@ -143,9 +143,9 @@ export default App;
 
 
 // optionals
-// [] The user can see more details (including 5 comments of the issue) in a modal that's opened by clicking on the title of the issue.
+// [X] The user can see more details (including 5 comments of the issue) in a modal that's opened by clicking on the title of the issue.
 // [X] The user should be able to see the body of the issue rendered in markdown. (Hint: react-markdown)
-// [] Fetching is an asynchronous operation, so you should display a loading spinner whenever the app loads data, and hide it once the corresponding API call has been completed.
-// [] Input Fuzzy Matching: the user should be able to type in either https://github.com/facebook/react or facebook/react, BOTH should work.
+// [X] Fetching is an asynchronous operation, so you should display a loading spinner whenever the app loads data, and hide it once the corresponding API call has been completed.
+// [X] Input Fuzzy Matching: the user should be able to type in either https://github.com/facebook/react or facebook/react, BOTH should work.
 // [] In the Issue Detail Modal, let implement an infinite pagination with a "Show More" button: Fetch 5 more comments whenever user clicks on the button. The button is disabled or hidden when all the comments have been loaded.
 // [] Users can create a new issue. (Danger Warning: If you attempt this task, please do so on a private repository. Don't spam the official facebook/react repo!)
