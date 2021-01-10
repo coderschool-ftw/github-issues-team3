@@ -14,13 +14,14 @@ function App() {
   const issuesPerPage = 30; // GitHub default size
   const [searchTerm, setSearchTerm] = useState("");
   const [issues, setIssues] = useState([]);
-  const [url, setUrl] = useState(
-    `https://api.github.com/repos/octocat/hello-world/issues`
-  );
+  // const [url, setUrl] = useState(
+  //   `https://api.github.com/repos/octocat/hello-world/issues`
+  // );
+  const [url, setUrl] = useState('');
   const [selectedIssue, setSelectedIssue] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [hasError, setHasError] = useState(false)
-  const [loading, isLoading] = useState(true);
+  const [loading, isLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalIssuesCount, setTotalIssuesCount] = useState(1);
   const [finalQuery,setFinalQuery] = useState('');
@@ -33,7 +34,7 @@ function App() {
   useEffect(() => {
     async function fetchData() {
       try {
-      if (url !== typeof("")) {
+      if (url !== "") {
         let result = await fetch(url);
         let json = await result.json();
         if(Array.isArray(json)){
@@ -45,6 +46,7 @@ function App() {
           setHasError(true);
         }
         setTimeout(() => isLoading(false), 2000);
+        setUrl('');
       }
       } catch {
         setHasError(true)
@@ -68,12 +70,25 @@ function App() {
   },[finalQuery])
 
   const handleClick = () => {
-    setUrl(`https://api.github.com/repos/${searchTerm}/issues`);
-    console.log(issues)
     setCurrentPage(1);
-    setFinalQuery(searchTerm);
+    if(searchTerm === "" || !searchTerm.includes('/')){
+      return;
+    }
+    let searchTermMatching = simpleFuzzyMatching(searchTerm);
+    setSearchTerm(searchTermMatching);
+    setUrl(`https://api.github.com/repos/${searchTermMatching}/issues`);
+    setFinalQuery(searchTermMatching);
+    isLoading(true);
   };
-
+  const simpleFuzzyMatching =  (input) => {
+    const array = input.split('/');
+    if(array.length === 2){
+      return array.join('/');
+    }
+    if(array.length >= 2){
+      return array.slice(-2).join('/');
+    }
+  }
   const handleChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -85,12 +100,13 @@ function App() {
   const handleChangePage = (page)=>{
     setCurrentPage(page);
     setUrl(`https://api.github.com/repos/${searchTerm}/issues?page=${page}`)
+    isLoading(true);
   }
 
   return (
+    <>
+    <Nav />
     <Container>
-      <h1 className="text-center">GitHub Issues Browser</h1>
-      <Nav />
       <SearchForm
         handleChange={handleChange}
         handleClick={handleClick}
@@ -108,6 +124,7 @@ function App() {
       {loading && (<BounceLoader></BounceLoader>)}
       
     </Container>
+    </>
   );
 }
 

@@ -1,11 +1,12 @@
   
 import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function SearchForm({ handleChange, searchTerm, handleClick }) {
   return (
-    <div>
-      <input type="text" onChange={handleChange} value={searchTerm} />
-      <button onClick={handleClick}>Search</button>
+    <div className="input-group mt-5 mb-3">
+      <input type="text" onChange={handleChange} value={searchTerm} className="form-control"/>
+      <button type="button" className="btn btn-primary" onClick={handleClick}>Search</button>
     </div>
   );
 }

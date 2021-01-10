@@ -2,7 +2,7 @@ import React from 'react'
 import Pagination from "react-js-pagination";
 const PaginationBar = (props) => {
     return (
-        <div>
+        <div className="d-flex justify-content-center">
            <Pagination
                 totalItemsCount={props.totalIssuesCount}
                 activePage={props.currentPage}
