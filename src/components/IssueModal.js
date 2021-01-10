@@ -32,7 +32,7 @@ function IssueModal({showModal, handleCloseModal, issue}) {
       <Modal.Header closeButton>
         <Modal.Title>{issue.title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{issue.body}</Modal.Body>
+      <Modal.Body><ReactMarkdown key={issue.key} source={issue.body}/></Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleCloseModal}>
           Close
@@ -40,7 +40,7 @@ function IssueModal({showModal, handleCloseModal, issue}) {
         <Button variant="primary" onClick={handleCloseModal}>
           Save Changes
         </Button>
-        <Modal.Body><ul>{comments.map(c => <li key={c.key}><ReactMarkdown escapeHtml={false}>{c.body}</ReactMarkdown></li>)}</ul></Modal.Body>
+        <Modal.Body><ul>{comments.map(c =><li><ReactMarkdown key={c.key} source={c.body}/></li>)}</ul></Modal.Body>
       </Modal.Footer>
       </Modal>
       )}
@@ -51,4 +51,3 @@ function IssueModal({showModal, handleCloseModal, issue}) {
 }
 
 export default IssueModal;
-//use react-markdown for clean rendering
