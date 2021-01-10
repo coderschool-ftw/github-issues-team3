@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import ReactMarkdown from "react-markdown";
-import IssueModalError from "./IssueModalError"
+// import IssueModalError from "./IssueModalError"
 
 
 
@@ -42,7 +42,7 @@ function IssueModal({showModal, handleCloseModal, issue, comments, handleLoadCom
               Save Changes
             </Button>
             <Modal.Body><ul>{comments.map(c =><li><ReactMarkdown key={c.key} source={c.body}/></li>)}</ul></Modal.Body>
-            <Button variant="primary" onClick={handleLoadComments} disabled = {disableLoadMore}>Load Comments</Button>
+            <Button variant="primary" onClick={handleLoadComments} disabled={disableLoadMore}>Load Comments</Button>
           </Modal.Footer>
           </Modal>
       {/* )} */}
