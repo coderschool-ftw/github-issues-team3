@@ -26,7 +26,9 @@ function App() {
   const [totalIssuesCount, setTotalIssuesCount] = useState(1);
   const [finalQuery,setFinalQuery] = useState('');
 
-
+  const [urlComment, setUrlComment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [pageComment, setPageComment] = useState(0);
 
 
   const handleCloseModal = () => setShowModal(false);
@@ -69,6 +71,18 @@ function App() {
     fetchTotalIssuesCount();
   },[finalQuery])
 
+  useEffect(()=>{
+    async function fetchComments(){
+      if(urlComment !== ""){
+        let data = await fetch(`${urlComment}?per_page=5&page=${pageComment}`);
+        let json = await data.json();
+        let newArray = [...comments, ...json]
+        setComments(newArray);
+      }
+    }
+    fetchComments();
+  },[urlComment, pageComment])
+
   const handleClick = () => {
     setCurrentPage(1);
     if(searchTerm === "" || !searchTerm.includes('/')){
@@ -96,11 +110,17 @@ function App() {
   const handleIssueClick = (issue) => {
     setSelectedIssue(issue)
     setShowModal(true)
+    setUrlComment(issue.comments_url);
+    setPageComment(1);
+    setComments([]);
   }
   const handleChangePage = (page)=>{
     setCurrentPage(page);
     setUrl(`https://api.github.com/repos/${searchTerm}/issues?page=${page}`)
     isLoading(true);
+  }
+  const handleLoadComments = ()=> {
+    setPageComment(pageComment + 1);
   }
 
   return (
@@ -120,7 +140,7 @@ function App() {
       {!loading && (<>
       {!hasError && (<IssueList issues={issues} handleIssueClick={handleIssueClick}/>)}
       {hasError && <IssueListError hasError={hasError}></IssueListError>}
-      <IssueModal showModal={showModal} handleCloseModal={handleCloseModal} issue={selectedIssue}/></>)}
+      <IssueModal showModal={showModal} handleCloseModal={handleCloseModal} issue={selectedIssue} comments = {comments} handleLoadComments={handleLoadComments}/></>)}
       {loading && (<BounceLoader></BounceLoader>)}
       
     </Container>
