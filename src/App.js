@@ -36,7 +36,14 @@ function App() {
       if (url !== typeof("")) {
         let result = await fetch(url);
         let json = await result.json();
-        setIssues(json);
+        if(Array.isArray(json)){
+          setIssues(json);
+          setHasError(false);
+        }
+        else{
+          setIssues([]);
+          setHasError(true);
+        }
         setTimeout(() => isLoading(false), 2000);
       }
       } catch {
