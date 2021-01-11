@@ -11,7 +11,7 @@ I'm faster and more confident with common/basic github features/commands. Especi
 
 ## Video Walkthrough
 
-In progress, if time allows...
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/086fb9097f404d6fb64990c376842617" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ## User Stories
 
