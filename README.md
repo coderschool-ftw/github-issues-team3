@@ -2,7 +2,7 @@
 
 Created with love by: Chau, Jun, Phuong and Prince
   
-<!-- View online at: `https://happy-pasteur-03b555.netlify.app` -->
+View online at: `https://happy-pasteur-03b555.netlify.app`
   
 It was really enjoyable growing familiar with Moment, React-Markdown, React-Bootstrap and, ofcourse, Github Issues!
 
